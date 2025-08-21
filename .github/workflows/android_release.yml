@@ -45,15 +45,20 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      # Step 4: Install Flutter dependencies
+      # Step 4: Create Secret File
+      - name: Create .env file
+        run: echo "API_KEY=${{ secrets.API_KEY }}" > .env
+        working-directory: ./
+
+      # Step 5: Install Flutter dependencies
       - name: Get Flutter dependencies
         run: flutter pub get
 
-      # Step 5: Build the Android release APK
+      # Step 6: Build the Android release APK
       - name: Build Android Release APK
         run: flutter build apk --release
 
-      # New Step: Rename the APK file to include the repository name
+      # Step 7: Rename the APK file to include the repository name
       - name: Rename APK file
         run: |
           # The repository name is retrieved from the GitHub context variable
@@ -61,7 +66,7 @@ jobs:
           # The 'mv' command moves (renames) the file
           mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/$REPO_NAME.apk"
 
-      # Step 6: Upload the generated APK as a workflow artifact
+      # Step 8: Upload the generated APK as a workflow artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
