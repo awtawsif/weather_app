@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:weather_app/additional_information.dart';
 import 'package:weather_app/hourly_forecast.dart';
 
@@ -25,7 +26,7 @@ class _WeatherApp extends State<WeatherApp> {
 
   Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
-      String cityName = 'London';
+      String cityName = 'Noakhali,bd';
       final apikey = dotenv.env['API_KEY'];
       final res = await http.get(
         Uri.parse(
@@ -51,7 +52,12 @@ class _WeatherApp extends State<WeatherApp> {
         title: const Text("Weather App"),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh)),
+          IconButton(
+            onPressed: () {
+              setState(() {});
+            },
+            icon: const Icon(Icons.refresh),
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -68,7 +74,7 @@ class _WeatherApp extends State<WeatherApp> {
 
           final currentWeatherData = data['list'][0];
 
-          final currentTemp = currentWeatherData['main']['temp'];
+          final double currentTemp = currentWeatherData['main']['temp'];
           final currentSky = currentWeatherData['weather'][0]['main'];
           final currentHumidity = currentWeatherData['main']['humidity'];
           final currentWindSpeed = currentWeatherData['wind']['speed'];
@@ -95,7 +101,8 @@ class _WeatherApp extends State<WeatherApp> {
                           child: Column(
                             children: [
                               Text(
-                                "$currentTemp°K",
+                                maxLines: 1,
+                                "${(currentTemp - 272.15).toStringAsFixed(2)}°C",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 40,
@@ -129,36 +136,24 @@ class _WeatherApp extends State<WeatherApp> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 const SizedBox(height: 16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      HourlyForecast(
-                        time: "9:00",
-                        icon: Icons.cloud,
-                        temperature: "80.23",
-                      ),
-                      HourlyForecast(
-                        time: "12:00",
-                        icon: Icons.sunny,
-                        temperature: "100.23",
-                      ),
-                      HourlyForecast(
-                        time: "15:00",
-                        icon: Icons.sunny,
-                        temperature: "101.23",
-                      ),
-                      HourlyForecast(
-                        time: "18:00",
-                        icon: Icons.cloud,
-                        temperature: "90.23",
-                      ),
-                      HourlyForecast(
-                        time: "21:00",
-                        icon: Icons.cloud,
-                        temperature: "80.23",
-                      ),
-                    ],
+                SizedBox(
+                  height: 121,
+                  child: ListView.builder(
+                    itemCount: 7,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      final hourlyforecast = data['list'][index + 1];
+                      final time = DateTime.parse(hourlyforecast['dt_txt']);
+                      final skyCond = hourlyforecast['weather'][0]['main'];
+                      return HourlyForecast(
+                        time: DateFormat.j().format(time),
+                        icon: skyCond == "Clouds" || skyCond == "Rain"
+                            ? Icons.cloud
+                            : Icons.sunny,
+                        temperature:
+                            "${(hourlyforecast['main']['temp'] - 272.15).toStringAsFixed(2)}°C",
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 20),
