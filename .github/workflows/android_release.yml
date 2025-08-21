@@ -6,8 +6,8 @@ on:
     branches:
       - main
       - master
-  tags:
-    - 'v*'  # Triggers the workflow when a new tag like 'v1.0.0' is pushed.
+    tags:
+      - 'v*'  # Triggers the workflow when a new tag like 'v1.0.0' is pushed.
 
 jobs:
   # The 'build' job handles building the Flutter application
