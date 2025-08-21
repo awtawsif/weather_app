@@ -23,6 +23,7 @@ class _WeatherApp extends State {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               width: double.infinity,
@@ -61,6 +62,145 @@ class _WeatherApp extends State {
                     ),
                   ),
                 ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Weather Forecast",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+            SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+
+              child: Row(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                    elevation: 10,
+                    child: Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "9:00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Icon(Icons.cloud, size: 32),
+                          SizedBox(height: 8),
+                          Text("100.23"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                    elevation: 10,
+                    child: Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "9:00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Icon(Icons.cloud, size: 32),
+                          SizedBox(height: 8),
+                          Text("100.23"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                    elevation: 10,
+                    child: Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "9:00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Icon(Icons.cloud, size: 32),
+                          SizedBox(height: 8),
+                          Text("100.23"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                    elevation: 10,
+                    child: Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "9:00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Icon(Icons.cloud, size: 32),
+                          SizedBox(height: 8),
+                          Text("100.23"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(16),
+                    ),
+                    elevation: 10,
+                    child: Container(
+                      width: 110,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "9:00",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Icon(Icons.cloud, size: 32),
+                          SizedBox(height: 8),
+                          Text("100.23"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 20),
