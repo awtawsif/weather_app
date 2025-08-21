@@ -23,7 +23,7 @@ class _WeatherApp extends State<WeatherApp> {
     getCurrentWeather();
   }
 
-  Future getCurrentWeather() async {
+  Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
       String cityName = 'London';
       final apikey = dotenv.env['API_KEY'];
@@ -38,7 +38,7 @@ class _WeatherApp extends State<WeatherApp> {
       if (data['cod'] != '200') {
         throw 'An unexpected error occured';
       }
-      //temp = data['list'][0]['main']['temp'];
+      return data;
     } catch (e) {
       throw e.toString();
     }
@@ -63,6 +63,17 @@ class _WeatherApp extends State<WeatherApp> {
           if (asyncSnapshot.hasError) {
             return const Center(child: Text("An Unexpected Error Occured"));
           }
+
+          final data = asyncSnapshot.data!;
+
+          final currentWeatherData = data['list'][0];
+
+          final currentTemp = currentWeatherData['main']['temp'];
+          final currentSky = currentWeatherData['weather'][0]['main'];
+          final currentHumidity = currentWeatherData['main']['humidity'];
+          final currentWindSpeed = currentWeatherData['wind']['speed'];
+          final currentPressure = currentWeatherData['main']['pressure'];
+
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -79,23 +90,28 @@ class _WeatherApp extends State<WeatherApp> {
                       borderRadius: BorderRadius.circular(16),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: const Padding(
-                          padding: EdgeInsets.all(16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             children: [
                               Text(
-                                "300 °K",
-                                style: TextStyle(
+                                "$currentTemp°K",
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 40,
                                 ),
                               ),
-                              SizedBox(height: 20),
-                              Icon(Icons.cloud, size: 64),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 20),
+                              Icon(
+                                currentSky == "Clouds" || currentSky == "Rain"
+                                    ? Icons.cloud
+                                    : Icons.sunny,
+                                size: 64,
+                              ),
+                              const SizedBox(height: 10),
                               Text(
-                                "Rain",
-                                style: TextStyle(
+                                currentSky,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
@@ -151,23 +167,23 @@ class _WeatherApp extends State<WeatherApp> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AdditionalInformation(
                       icon: Icons.water_drop,
                       label: "Humidity",
-                      value: "94",
+                      value: currentHumidity.toString(),
                     ),
                     AdditionalInformation(
                       icon: Icons.air,
                       label: "Wind Speed",
-                      value: "7.94",
+                      value: currentWindSpeed.toString(),
                     ),
                     AdditionalInformation(
                       icon: Icons.beach_access,
                       label: "Pressure",
-                      value: "1002",
+                      value: currentPressure.toString(),
                     ),
                   ],
                 ),
